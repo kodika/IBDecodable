@@ -34,7 +34,8 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     public let showsHorizontalScrollIndicator: Bool?
     public let showsVerticalScrollIndicator: Bool?
     public let subviews: [AnyView]?
-    public let text: StringContainer?
+    public let string: StringContainer?
+    public let text: String?
     public let textAlignment: String?
     public let textColor: Color?
     public let translatesAutoresizingMaskIntoConstraints: Bool?
@@ -69,7 +70,6 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
                 case .isEnabled: return "enabled"
                 case .isHighlighted: return "highlighted"
                 case .isSelected: return "selected"
-                case .text: return "string"
                 default: return key.stringValue
                 }
             }()
@@ -104,7 +104,8 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
             showsHorizontalScrollIndicator:            container.attributeIfPresent(of: .showsHorizontalScrollIndicator),
             showsVerticalScrollIndicator:              container.attributeIfPresent(of: .showsVerticalScrollIndicator),
             subviews:                                  container.childrenIfPresent(of: .subviews),
-            text:                                      container.elementIfPresent(of: .text),
+            string:                                    container.elementIfPresent(of: .string),
+            text:                                      container.attributeIfPresent(of: .text),
             textAlignment:                             container.attributeIfPresent(of: .textAlignment),
             textColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),

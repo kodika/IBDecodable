@@ -34,6 +34,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let opaque: Bool?
     public let rect: Rect?
     public let subviews: [AnyView]?
+    public let string: StringContainer?
     public let text: String?
     public let textAlignment: String?
     public let textColor: Color?
@@ -94,6 +95,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             opaque:                                    container.attributeIfPresent(of: .opaque),
             rect:                                      container.elementIfPresent(of: .rect),
             subviews:                                  container.childrenIfPresent(of: .subviews),
+            string:                                    container.attributeIfPresent(of: .string),
             text:                                      container.attributeIfPresent(of: .text),
             textAlignment:                             container.attributeIfPresent(of: .textAlignment),
             textColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
