@@ -48,7 +48,7 @@ public struct Stepper: IBDecodable, ControlProtocol, IBIdentifiable {
     
     public let hidden: Bool?
     public let wraps: Bool?
-    public let autoRepeat: Bool?
+    public let autorepeat: Bool?
     public let continuous: Bool?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
@@ -112,7 +112,7 @@ public struct Stepper: IBDecodable, ControlProtocol, IBIdentifiable {
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
             hidden:                                    container.attributeIfPresent(of: .hidden),
             wraps:                                     container.attributeIfPresent(of: .wraps),
-            autoRepeat:                                container.attributeIfPresent(of: .autoRepeat),
+            autorepeat:                                container.attributeIfPresent(of: .autorepeat),
             continuous:                                container.attributeIfPresent(of: .continuous)
         )
     }
