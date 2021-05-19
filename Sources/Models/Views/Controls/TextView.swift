@@ -54,6 +54,7 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     public let contentVerticalAlignment: String?
 
     public var hidden: Bool?
+    public let alpha: Float?
     public let textInputTraits: TextInputTraits?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
@@ -123,6 +124,7 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
             contentHorizontalAlignment: container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment: container.attributeIfPresent(of: .contentVerticalAlignment),
             hidden: container.attributeIfPresent(of: .hidden),
+            alpha: container.attributeIfPresent(of: .alpha),
             textInputTraits: container.elementIfPresent(of: .textInputTraits)
         )
     }

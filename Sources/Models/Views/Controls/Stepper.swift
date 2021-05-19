@@ -47,6 +47,7 @@ public struct Stepper: IBDecodable, ControlProtocol, IBIdentifiable {
     public let contentVerticalAlignment: String?
     
     public let hidden: Bool?
+    public let alpha: Float?
     public let wraps: Bool?
     public let autorepeat: Bool?
     public let continuous: Bool?
@@ -111,6 +112,7 @@ public struct Stepper: IBDecodable, ControlProtocol, IBIdentifiable {
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
             hidden:                                    container.attributeIfPresent(of: .hidden),
+            alpha:                                     container.attributeIfPresent(of: .alpha),
             wraps:                                     container.attributeIfPresent(of: .wraps),
             autorepeat:                                container.attributeIfPresent(of: .autorepeat),
             continuous:                                container.attributeIfPresent(of: .continuous)

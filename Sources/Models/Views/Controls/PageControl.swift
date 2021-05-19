@@ -43,6 +43,7 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
     public let contentVerticalAlignment: String?
     
     public var hidden: Bool?
+    public let alpha: Float?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -99,7 +100,8 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
             isSelected:                                container.attributeIfPresent(of: .isSelected),
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
-            hidden:                                    container.attributeIfPresent(of: .hidden)
+            hidden:                                    container.attributeIfPresent(of: .hidden),
+            alpha:                                     container.attributeIfPresent(of: .alpha)
         )
     }
 }

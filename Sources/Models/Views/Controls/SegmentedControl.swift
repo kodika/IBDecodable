@@ -46,6 +46,7 @@ public struct SegmentedControl: IBDecodable, ControlProtocol, IBIdentifiable {
     public let contentVerticalAlignment: String?
     
     public var hidden: Bool?
+    public let alpha: Float?
 
     public struct Segment: IBDecodable {
         public let title: String
@@ -115,7 +116,8 @@ public struct SegmentedControl: IBDecodable, ControlProtocol, IBIdentifiable {
             isSelected:                                container.attributeIfPresent(of: .isSelected),
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
-            hidden:                                    container.attributeIfPresent(of: .hidden)
+            hidden:                                    container.attributeIfPresent(of: .hidden),
+            alpha:                                     container.attributeIfPresent(of: .alpha)
         )
     }
 

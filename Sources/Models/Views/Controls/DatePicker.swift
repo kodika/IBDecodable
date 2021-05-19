@@ -47,6 +47,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
     public let contentVerticalAlignment: String?
     
     public let hidden: Bool?
+    public let alpha: Float?
 
     public let style: String?
     public let useCurrentDate: Bool?
@@ -116,6 +117,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
             hidden:                                    container.attributeIfPresent(of: .hidden),
+            alpha:                                     container.attributeIfPresent(of: .alpha),
             style:                                     container.attributeIfPresent(of: .style),
             useCurrentDate:                            container.attributeIfPresent(of: .useCurrentDate),
             countDownDuration:                         container.attributeIfPresent(of: .countDownDuration),
