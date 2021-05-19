@@ -8,7 +8,6 @@
 import SWXMLHash
 
 public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
-
     public let id: String
     public let elementClass: String = "UILabel"
 
@@ -35,6 +34,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let rect: Rect?
     public let subviews: [AnyView]?
     public let string: StringContainer?
+    public let mutableString: StringContainer?
     public let text: String?
     public let textAlignment: String?
     public let textColor: Color?
@@ -70,48 +70,48 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
         let variationContainer = xml.container(keys: VariationCodingKey.self)
         let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
             .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
-        
+
         return Label(
-            id:                                        try container.attribute(of: .id),
-            adjustsFontSizeToFit:                      container.attributeIfPresent(of: .adjustsFontSizeToFit),
-            key:                                       container.attributeIfPresent(of: .key),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            baselineAdjustment:                        container.attributeIfPresent(of: .baselineAdjustment),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            fixedFrame:                                container.attributeIfPresent(of: .fixedFrame),
-            fontDescription:                           container.elementIfPresent(of: .fontDescription),
-            horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
-            lineBreakMode:                             container.attributeIfPresent(of: .lineBreakMode),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            rect:                                      container.elementIfPresent(of: .rect),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
-            string:                                    container.attributeIfPresent(of: .string),
-            text:                                      container.attributeIfPresent(of: .text),
-            textAlignment:                             container.attributeIfPresent(of: .textAlignment),
-            textColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
-            attributedText:                            container.elementIfPresent(of: .attributedText),
+            id: try container.attribute(of: .id),
+            adjustsFontSizeToFit: container.attributeIfPresent(of: .adjustsFontSizeToFit),
+            key: container.attributeIfPresent(of: .key),
+            autoresizingMask: container.elementIfPresent(of: .autoresizingMask),
+            baselineAdjustment: container.attributeIfPresent(of: .baselineAdjustment),
+            clipsSubviews: container.attributeIfPresent(of: .clipsSubviews),
+            constraints: constraintsContainer?.elementsIfPresent(of: .constraint),
+            contentMode: container.attributeIfPresent(of: .contentMode),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
+            customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
+            fixedFrame: container.attributeIfPresent(of: .fixedFrame),
+            fontDescription: container.elementIfPresent(of: .fontDescription),
+            horizontalHuggingPriority: container.attributeIfPresent(of: .horizontalHuggingPriority),
+            lineBreakMode: container.attributeIfPresent(of: .lineBreakMode),
+            isMisplaced: container.attributeIfPresent(of: .isMisplaced),
+            isAmbiguous: container.attributeIfPresent(of: .isAmbiguous),
+            verifyAmbiguity: container.attributeIfPresent(of: .verifyAmbiguity),
+            opaque: container.attributeIfPresent(of: .opaque),
+            rect: container.elementIfPresent(of: .rect),
+            subviews: container.childrenIfPresent(of: .subviews),
+            string: container.attributeIfPresent(of: .string),
+            mutableString: container.elementIfPresent(of: .mutableString),
+            text: container.attributeIfPresent(of: .text),
+            textAlignment: container.attributeIfPresent(of: .textAlignment),
+            textColor: colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            attributedText: container.elementIfPresent(of: .attributedText),
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            hidden:                                    container.attributeIfPresent(of: .hidden)
+            userInteractionEnabled: container.attributeIfPresent(of: .userInteractionEnabled),
+            verticalHuggingPriority: container.attributeIfPresent(of: .verticalHuggingPriority),
+            userDefinedRuntimeAttributes: container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
+            connections: container.childrenIfPresent(of: .connections),
+            variations: variationContainer.elementsIfPresent(of: .variation),
+            backgroundColor: colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
+            tintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
+            hidden: container.attributeIfPresent(of: .hidden)
         )
     }
-
 }
 
 // MARK: - FontDescription
@@ -168,7 +168,6 @@ public enum FontDescription: IBDecodable {
 }
 
 extension FontDescription: AttributeProtocol {
-
     public var key: String? {
         switch self {
         case .system(let systemFont):

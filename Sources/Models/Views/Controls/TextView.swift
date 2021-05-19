@@ -8,7 +8,6 @@
 import SWXMLHash
 
 public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
-    
     public let id: String
     public let elementClass: String = "UITextView"
 
@@ -35,6 +34,7 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     public let showsVerticalScrollIndicator: Bool?
     public let subviews: [AnyView]?
     public let string: StringContainer?
+    public let mutableString: StringContainer?
     public let text: String?
     public let textAlignment: String?
     public let textColor: Color?
@@ -52,7 +52,7 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     public let isSelected: Bool?
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
-    
+
     public var hidden: Bool?
     public let textInputTraits: TextInputTraits?
 
@@ -60,7 +60,7 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     enum VariationCodingKey: CodingKey { case variation }
     enum ExternalCodingKeys: CodingKey { case color }
     enum ColorsCodingKeys: CodingKey { case key }
-    
+
     static func decode(_ xml: XMLIndexerType) throws -> TextView {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
@@ -81,48 +81,49 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
             .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
 
         return TextView(
-            id:                                        try container.attribute(of: .id),
-            key:                                       container.attributeIfPresent(of: .key),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            bounces:                                   container.attributeIfPresent(of: .bounces),
-            bouncesZoom:                               container.attributeIfPresent(of: .bouncesZoom),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            fontDescription:                           container.elementIfPresent(of: .fontDescription),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            rect:                                      container.elementIfPresent(of: .rect),
-            scrollEnabled:                             container.attributeIfPresent(of: .scrollEnabled),
-            showsHorizontalScrollIndicator:            container.attributeIfPresent(of: .showsHorizontalScrollIndicator),
-            showsVerticalScrollIndicator:              container.attributeIfPresent(of: .showsVerticalScrollIndicator),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
-            string:                                    container.elementIfPresent(of: .string),
-            text:                                      container.attributeIfPresent(of: .text),
-            textAlignment:                             container.attributeIfPresent(of: .textAlignment),
-            textColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            id: try container.attribute(of: .id),
+            key: container.attributeIfPresent(of: .key),
+            autoresizingMask: container.elementIfPresent(of: .autoresizingMask),
+            bounces: container.attributeIfPresent(of: .bounces),
+            bouncesZoom: container.attributeIfPresent(of: .bouncesZoom),
+            clipsSubviews: container.attributeIfPresent(of: .clipsSubviews),
+            constraints: constraintsContainer?.elementsIfPresent(of: .constraint),
+            contentMode: container.attributeIfPresent(of: .contentMode),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
+            customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
+            fontDescription: container.elementIfPresent(of: .fontDescription),
+            isMisplaced: container.attributeIfPresent(of: .isMisplaced),
+            isAmbiguous: container.attributeIfPresent(of: .isAmbiguous),
+            verifyAmbiguity: container.attributeIfPresent(of: .verifyAmbiguity),
+            opaque: container.attributeIfPresent(of: .opaque),
+            rect: container.elementIfPresent(of: .rect),
+            scrollEnabled: container.attributeIfPresent(of: .scrollEnabled),
+            showsHorizontalScrollIndicator: container.attributeIfPresent(of: .showsHorizontalScrollIndicator),
+            showsVerticalScrollIndicator: container.attributeIfPresent(of: .showsVerticalScrollIndicator),
+            subviews: container.childrenIfPresent(of: .subviews),
+            string: container.elementIfPresent(of: .string),
+            mutableString: container.elementIfPresent(of: .mutableString),
+            text: container.attributeIfPresent(of: .text),
+            textAlignment: container.attributeIfPresent(of: .textAlignment),
+            textColor: colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            editable:                                  container.attributeIfPresent(of: .editable),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
-            isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
-            isSelected:                                container.attributeIfPresent(of: .isSelected),
-            contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
-            contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
-            hidden:                                    container.attributeIfPresent(of: .hidden),
-            textInputTraits:                           container.elementIfPresent(of: .textInputTraits)
+            userInteractionEnabled: container.attributeIfPresent(of: .userInteractionEnabled),
+            userDefinedRuntimeAttributes: container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
+            connections: container.childrenIfPresent(of: .connections),
+            variations: variationContainer.elementsIfPresent(of: .variation),
+            editable: container.attributeIfPresent(of: .editable),
+            backgroundColor: colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
+            tintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
+            isEnabled: container.attributeIfPresent(of: .isEnabled),
+            isHighlighted: container.attributeIfPresent(of: .isHighlighted),
+            isSelected: container.attributeIfPresent(of: .isSelected),
+            contentHorizontalAlignment: container.attributeIfPresent(of: .contentHorizontalAlignment),
+            contentVerticalAlignment: container.attributeIfPresent(of: .contentVerticalAlignment),
+            hidden: container.attributeIfPresent(of: .hidden),
+            textInputTraits: container.elementIfPresent(of: .textInputTraits)
         )
     }
 }
