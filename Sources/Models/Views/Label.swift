@@ -95,7 +95,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             opaque: container.attributeIfPresent(of: .opaque),
             rect: container.elementIfPresent(of: .rect),
             subviews: container.childrenIfPresent(of: .subviews),
-            string: container.attributeIfPresent(of: .string),
+            string: container.elementIfPresent(of: .string),
             mutableString: container.elementIfPresent(of: .mutableString),
             text: container.attributeIfPresent(of: .text),
             textAlignment: container.attributeIfPresent(of: .textAlignment),
