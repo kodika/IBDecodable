@@ -10,11 +10,12 @@ import Foundation
 
 private let cocoaTouchKey = "com.apple.InterfaceBuilder3.CocoaTouch.XIB"
 private let cocoaKey = "com.apple.InterfaceBuilder3.Cocoa.XIB"
+private let cocoaStoryboard = "com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB"
 
 public struct InterfaceBuilderParser {
     struct XMLHeader: XMLDecodable, KeyDecodable {
-        private let archiveType: String?
-        private let documentType: String?
+        let archiveType: String?
+        let documentType: String?
         
         enum CodingKeys: String, CodingKey {
             case archiveType = "archive"
@@ -80,27 +81,28 @@ public struct InterfaceBuilderParser {
                 throw error
             }
         }
+        let xmlHeader: XMLHeader? = try? decodeValue(xmlIndexer)
+        let xmlHeaderType = xmlHeader?.getType()
+        
+        if [cocoaKey, cocoaStoryboard].contains(xmlHeaderType) {
+            throw Error.macFormat
+        } else if xmlHeader?.archiveType != nil {
+            throw Error.legacyFormat
+        }
+        
         let container = xmlIndexer.container(keys: Keys.self)
         do {
             return try container.element(of: .document)
         } catch {
-            if let xmlHeader: XMLHeader = try? decodeValue(xmlIndexer) {
-                if let xmlHeaderType = xmlHeader.getType() {
-                    switch xmlHeaderType {
-                    case cocoaTouchKey:
-                        throw Error.legacyFormat
-                    case cocoaKey:
-                        throw Error.macFormat
-                    default:
-                        throw Error.invalidFormatFile
-                    }
-                }
+            if let err = error as? ParsingError {
+                throw Error.parsingError(err)
             }
+            
+            if let err = error as? IndexingError {
+                throw Error.xmlError(err)
+            }
+            
             throw error
-        } catch let error as ParsingError {
-            throw Error.parsingError(error)
-        } catch let error as IndexingError {
-            throw Error.xmlError(error)
         }
     }
     
