@@ -16,6 +16,7 @@ public struct InterfaceBuilderParser {
     struct XMLHeader: XMLDecodable, KeyDecodable {
         let archiveType: String?
         let documentType: String?
+        let version: String?
         
         enum CodingKeys: String, CodingKey {
             case archiveType = "archive"
@@ -30,12 +31,12 @@ public struct InterfaceBuilderParser {
             
             if archiveContainer != nil {
                 return try XMLHeader(
-                    archiveType: archiveContainer?.attribute(of: .type) ?? "", documentType: nil
+                    archiveType: archiveContainer?.attribute(of: .type) ?? "", documentType: nil, version: archiveContainer?.attribute(of: .type) ?? ""
                 )
             } else {
                 let documentContainer = try? container.nestedContainer(of: .documentType, keys: ArchiveCodingKeys.self)
                 return try XMLHeader(
-                    archiveType: nil, documentType: documentContainer?.attribute(of: .type)
+                    archiveType: nil, documentType: documentContainer?.attribute(of: .type), version: documentContainer?.attribute(of: .type)
                 )
             }
         }
@@ -86,7 +87,7 @@ public struct InterfaceBuilderParser {
         
         if [cocoaKey, cocoaStoryboard].contains(xmlHeaderType) {
             throw Error.macFormat
-        } else if xmlHeader?.archiveType != nil {
+        } else if xmlHeader?.archiveType != nil || xmlHeader?.version != "3.0" {
             throw Error.legacyFormat
         }
         
