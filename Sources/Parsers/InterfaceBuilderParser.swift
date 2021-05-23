@@ -83,10 +83,6 @@ public struct InterfaceBuilderParser {
         let container = xmlIndexer.container(keys: Keys.self)
         do {
             return try container.element(of: .document)
-        } catch let error as ParsingError {
-            throw Error.parsingError(error)
-        } catch let error as IndexingError {
-            throw Error.xmlError(error)
         } catch {
             if let xmlHeader: XMLHeader = try? decodeValue(xmlIndexer) {
                 if let xmlHeaderType = xmlHeader.getType() {
@@ -101,6 +97,10 @@ public struct InterfaceBuilderParser {
                 }
             }
             throw error
+        } catch let error as ParsingError {
+            throw Error.parsingError(error)
+        } catch let error as IndexingError {
+            throw Error.xmlError(error)
         }
     }
     
