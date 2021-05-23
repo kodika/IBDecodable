@@ -15,14 +15,14 @@ public struct InterfaceBuilderParser {
     struct XMLHeader: XMLDecodable, KeyDecodable {
         private let archiveType: String?
         private let documentType: String?
-
+        
         enum CodingKeys: String, CodingKey {
             case archiveType = "archive"
             case documentType = "document"
         }
         
         enum ArchiveCodingKeys: CodingKey { case type }
-
+        
         static func decode(_ xml: XMLIndexerType) throws -> XMLHeader {
             let container = xml.container(keys: CodingKeys.self)
             let archiveContainer = try? container.nestedContainer(of: .archiveType, keys: ArchiveCodingKeys.self)
@@ -39,41 +39,41 @@ public struct InterfaceBuilderParser {
             }
         }
         
-        func getType() -> String {
+        func getType() -> String? {
             if let archieveType = self.archiveType {
                 return archieveType
             } else {
-                return documentType!
+                return documentType
             }
         }
     }
-
+    
     let xmlParser: SWXMLHash
-
+    
     public init(detectParsingErrors: Bool = true) {
         xmlParser = SWXMLHash.config { options in
             options.detectParsingErrors = detectParsingErrors
         }
     }
-
+    
     public func parseXib(xml: String) throws -> XibDocument {
         return try parseDocument(xml: xml)
     }
-
+    
     public func parseStoryboard(xml: String) throws -> StoryboardDocument {
         return try parseDocument(xml: xml)
     }
-
+    
     internal func parseDocument<D: InterfaceBuilderDocument & IBDecodable>(xml: String) throws -> D {
         return try parseDocument(xmlIndexer: xmlParser.parse(xml))
     }
-
+    
     internal func parseDocument<D: InterfaceBuilderDocument & IBDecodable>(data: Data) throws -> D {
         return try parseDocument(xmlIndexer: xmlParser.parse(data))
     }
-
+    
     enum Keys: CodingKey { case document }
-
+    
     internal func parseDocument<D: InterfaceBuilderDocument & IBDecodable>(xmlIndexer: XMLIndexerType) throws -> D {
         if let swxmlIndexer = xmlIndexer as? XMLIndexer {
             if let error = swxmlIndexer.error {
@@ -83,27 +83,27 @@ public struct InterfaceBuilderParser {
         let container = xmlIndexer.container(keys: Keys.self)
         do {
             return try container.element(of: .document)
+        } catch let error as ParsingError {
+            throw Error.parsingError(error)
+        } catch let error as IndexingError {
+            throw Error.xmlError(error)
         } catch {
-            do {
-                let xmlHeader: XMLHeader = try decodeValue(xmlIndexer)
-                switch xmlHeader.getType() {
-                case cocoaTouchKey:
-                    throw Error.legacyFormat
-                case cocoaKey:
-                    throw Error.macFormat
-                default:
-                    throw Error.invalidFormatFile
+            if let xmlHeader: XMLHeader = try? decodeValue(xmlIndexer) {
+                if let xmlHeaderType = xmlHeader.getType() {
+                    switch xmlHeaderType {
+                    case cocoaTouchKey:
+                        throw Error.legacyFormat
+                    case cocoaKey:
+                        throw Error.macFormat
+                    default:
+                        throw Error.invalidFormatFile
+                    }
                 }
-            } catch let error as ParsingError {
-                throw Error.parsingError(error)
-            } catch let error as IndexingError {
-                throw Error.xmlError(error)
-            } catch {
-                throw error
             }
+            throw error
         }
     }
-
+    
     public enum Error: Swift.Error {
         case invalidFormatFile
         case legacyFormat
