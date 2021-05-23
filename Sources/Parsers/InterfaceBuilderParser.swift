@@ -87,7 +87,7 @@ public struct InterfaceBuilderParser {
         
         if [cocoaKey, cocoaStoryboard].contains(xmlHeaderType) {
             throw Error.macFormat
-        } else if xmlHeader?.archiveType != nil || xmlHeader?.version != "3.0" {
+        } else if xmlHeader?.archiveType != nil || (xmlHeader?.version != nil && xmlHeader?.version != "3.0") {
             throw Error.legacyFormat
         }
         
