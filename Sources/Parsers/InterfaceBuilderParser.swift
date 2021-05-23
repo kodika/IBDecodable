@@ -12,19 +12,39 @@ private let cocoaTouchKey = "com.apple.InterfaceBuilder3.CocoaTouch.XIB"
 private let cocoaKey = "com.apple.InterfaceBuilder3.Cocoa.XIB"
 
 public struct InterfaceBuilderParser {
-
     struct XMLHeader: XMLDecodable, KeyDecodable {
-        let archiveType: String
+        private let archiveType: String?
+        private let documentType: String?
 
-        enum CodingKeys: String, CodingKey { case archiveType = "archive" }
+        enum CodingKeys: String, CodingKey {
+            case archiveType = "archive"
+            case documentType = "document"
+        }
+        
         enum ArchiveCodingKeys: CodingKey { case type }
 
         static func decode(_ xml: XMLIndexerType) throws -> XMLHeader {
             let container = xml.container(keys: CodingKeys.self)
-            let archiveContainer = try container.nestedContainer(of: .archiveType, keys: ArchiveCodingKeys.self)
-            return try XMLHeader(
-                archiveType: archiveContainer.attribute(of: .type)
-            )
+            let archiveContainer = try? container.nestedContainer(of: .archiveType, keys: ArchiveCodingKeys.self)
+            
+            if archiveContainer != nil {
+                return try XMLHeader(
+                    archiveType: archiveContainer?.attribute(of: .type) ?? "", documentType: nil
+                )
+            } else {
+                let documentContainer = try? container.nestedContainer(of: .documentType, keys: ArchiveCodingKeys.self)
+                return try XMLHeader(
+                    archiveType: nil, documentType: documentContainer?.attribute(of: .type)
+                )
+            }
+        }
+        
+        func getType() -> String {
+            if let archieveType = self.archiveType {
+                return archieveType
+            } else {
+                return documentType!
+            }
         }
     }
 
@@ -66,7 +86,7 @@ public struct InterfaceBuilderParser {
         } catch {
             do {
                 let xmlHeader: XMLHeader = try decodeValue(xmlIndexer)
-                switch xmlHeader.archiveType {
+                switch xmlHeader.getType() {
                 case cocoaTouchKey:
                     throw Error.legacyFormat
                 case cocoaKey:
@@ -91,7 +111,6 @@ public struct InterfaceBuilderParser {
         case parsingError(ParsingError)
         case xmlError(IndexingError)
     }
-
 }
 
 extension XMLIndexer {
