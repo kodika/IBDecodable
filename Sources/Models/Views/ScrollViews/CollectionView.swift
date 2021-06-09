@@ -192,7 +192,6 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
 
     public struct CollectionViewContentView: IBDecodable, ViewProtocol {
 
-        public let id: String
         public let elementClass: String = "UIView"
 
         public let key: String?
@@ -244,7 +243,6 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                 .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
 
             return CollectionViewContentView(
-                id:                                        try container.attribute(of: .id),
                 key:                                       container.attributeIfPresent(of: .key),
                 autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
                 clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
