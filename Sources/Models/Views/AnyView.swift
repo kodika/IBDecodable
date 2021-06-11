@@ -35,7 +35,7 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var variations: [Variation]? { get }
     var backgroundColor: Color? { get }
     var tintColor: Color? { get }
-    var hidden: Bool? { get }
+    var isHidden: Bool? { get }
     var alpha: Float? {get}
 }
 
@@ -56,7 +56,7 @@ public struct AnyView: IBDecodable {
             throw IBError.elementNotFound
         }
         switch elementName {
-        case "activityIndicatorView":    return try AnyView(ActivityindicatorView.decode(xml))
+        case "activityIndicatorView":    return try AnyView(ActivityIndicatorView.decode(xml))
         case "arscnView":                return try AnyView(ARSCNView.decode(xml))
         case "arskView":                 return try AnyView(ARSKView.decode(xml))
         case "button":                   return try AnyView(Button.decode(xml))
