@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.15.1)
+
+project(IBDecodable LANGUAGES Swift)
+
+set(CMAKE_Swift_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/swift)
+option(BUILD_SHARED_LIBS "build shared libraries" ON)
+
+find_package(dispatch CONFIG REQUIRED)
+find_package(Foundation CONFIG REQUIRED)
+
+
+add_library(SWXMLHash
+	SWXMLHash/Source/SWXMLHash.swift
+	SWXMLHash/Source/XMLIndexer+XMLIndexerDeserializable.swift
+	SWXMLHash/Source/shim.swift
+)
+
+# target_include_directories(SWXMLHash PUBLIC
+#   	SWXMLHash/Source/)
+
+target_link_libraries(SWXMLHash PUBLIC
+	dispatch
+	Foundation
+)
+
+
+
+
+file(GLOB_RECURSE SOURCES Sources/*.swift)
+	
+add_library(IBDecodable
+	${SOURCES}
+)
+
+target_link_libraries(IBDecodable PUBLIC
+	dispatch
+	Foundation
+	SWXMLHash
+)
+
+set_target_properties(IBDecodable PROPERTIES
+  INSTALL_RPATH "$ORIGIN"
+  Swift_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/swift
+  INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/swift
+)
+
+export( TARGETS SWXMLHash
+  FILE SWXMLHashConfig.cmake
+)
+
+export( TARGETS IBDecodable
+  FILE IBDecodableConfig.cmake
+)
