@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.15.1)
+list(APPEND CMAKE_MODULE_PATH $ENV{SWIFT_CORELIBS_JAVA_SRC}/cmake/modules)
+include(SwiftSupport)
 
 project(IBDecodable LANGUAGES Swift)
 
@@ -15,9 +17,6 @@ add_library(SWXMLHash
 	SWXMLHash/Source/shim.swift
 )
 
-# target_include_directories(SWXMLHash PUBLIC
-#   	SWXMLHash/Source/)
-
 target_link_libraries(SWXMLHash PUBLIC
 	dispatch
 	Foundation
@@ -27,7 +26,7 @@ target_link_libraries(SWXMLHash PUBLIC
 
 
 file(GLOB_RECURSE SOURCES Sources/*.swift)
-	
+
 add_library(IBDecodable
 	${SOURCES}
 )
@@ -43,6 +42,9 @@ set_target_properties(IBDecodable PROPERTIES
   Swift_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/swift
   INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/swift
 )
+
+_install_target(SWXMLHash)
+_install_target(IBDecodable)
 
 export( TARGETS SWXMLHash
   FILE SWXMLHashConfig.cmake
