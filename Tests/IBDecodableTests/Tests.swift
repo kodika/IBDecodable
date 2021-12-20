@@ -373,6 +373,34 @@ class Tests: XCTestCase {
             XCTFail("\(error)  \(url)")
         }
     }
+    
+    func testStoryboardWithViewControllerWithTitle() {
+        let url = self.url(forResource: "StoryboardWithViewControllerWithTitle", withExtension: "storyboard")
+        do {
+            let file = try StoryboardFile(url: url)
+            guard let viewController = file.document.scenes?.first?.viewController else {
+                XCTFail("Should contain a view controller")
+                return
+            }
+            XCTAssertEqual(viewController.viewController.title, "This is the expected title")
+        } catch {
+            XCTFail("\(error)  \(url)")
+        }
+    }
+    
+    func testStoryboardWithNavigationControllerWithTitle() {
+        let url = self.url(forResource: "StoryboardWithNavigationControllerWithTitle", withExtension: "storyboard")
+        do {
+            let file = try StoryboardFile(url: url)
+            guard let navController = file.document.scenes?.first?.viewController else {
+                XCTFail("First scene should be a navigation controller")
+                return
+            }
+            XCTAssertEqual(navController.viewController.title, "This is the expected navigation controller's title")
+        } catch {
+            XCTFail("\(error)  \(url)")
+        }
+    }
 
     func testCollectionViewCellContentView() {
         let url = self.url(forResource: "CollectionViewCell", withExtension: "xib")
