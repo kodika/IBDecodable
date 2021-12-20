@@ -23,6 +23,7 @@ public struct PageViewController: IBDecodable, ViewControllerProtocol {
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBar.TabBarItem?
+    public let navigationItem: NavigationBar.NavigationItem?
     public let view: View?
     public var rootView: ViewProtocol? { return view }
     public var varspineLocation: String? // min, max, mid, none
@@ -48,6 +49,7 @@ public struct PageViewController: IBDecodable, ViewControllerProtocol {
             connections:                  container.childrenIfPresent(of: .connections),
             keyCommands:                  container.childrenIfPresent(of: .keyCommands),
             tabBarItem:                   container.elementIfPresent(of: .tabBarItem),
+            navigationItem:               container.elementIfPresent(of: .navigationItem),
             view:                         container.elementIfPresent(of: .view),
             varspineLocation:             container.attributeIfPresent(of: .varspineLocation),
             doubleSided:                  container.attributeIfPresent(of: .doubleSided) ?? false,
