@@ -23,6 +23,7 @@ public struct CollectionViewController: IBDecodable, ViewControllerProtocol {
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBar.TabBarItem?
+    public let navigationItem: NavigationBar.NavigationItem?
     public let collectionView: CollectionView?
     public var rootView: ViewProtocol? { return collectionView }
     public let clearsSelectionOnViewWillAppear: Bool
@@ -48,6 +49,7 @@ public struct CollectionViewController: IBDecodable, ViewControllerProtocol {
             connections:                     container.childrenIfPresent(of: .connections),
             keyCommands:                     container.childrenIfPresent(of: .keyCommands),
             tabBarItem:                      container.elementIfPresent(of: .tabBarItem),
+            navigationItem:                  container.elementIfPresent(of: .navigationItem),
             collectionView:                  container.elementIfPresent(of: .collectionView),
             clearsSelectionOnViewWillAppear: container.attributeIfPresent(of: .clearsSelectionOnViewWillAppear) ?? true,
             size:                            container.elementsIfPresent(of: .size),

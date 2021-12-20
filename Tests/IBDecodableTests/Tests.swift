@@ -401,6 +401,20 @@ class Tests: XCTestCase {
             XCTFail("\(error)  \(url)")
         }
     }
+    
+    func testStoryboardWithNavigationControllerAndRootVcThatHasNavigationItemTitle() {
+        let url = self.url(forResource: "StoryboardWithNavigationControllerAndRootVcThatHasNavigationItemTitle", withExtension: "storyboard")
+        do {
+            let file = try StoryboardFile(url: url)
+            guard let navControllersRootViewController = file.document.scenes?[1].viewController?.viewController as? ViewController else {
+                XCTFail("First scene should be a navigation controller, second should be its root vc")
+                return
+            }
+            XCTAssertEqual(navControllersRootViewController.navigationItem?.title, "Expected Navigation Item Title")
+        } catch {
+            XCTFail("\(error)  \(url)")
+        }
+    }
 
     func testCollectionViewCellContentView() {
         let url = self.url(forResource: "CollectionViewCell", withExtension: "xib")

@@ -23,6 +23,7 @@ public struct GLKViewController: IBDecodable, ViewControllerProtocol {
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBar.TabBarItem?
+    public let navigationItem: NavigationBar.NavigationItem?
     public let glkView: GLKView?
     public var rootView: ViewProtocol? { return glkView }
     public let size: [Size]?
@@ -48,6 +49,7 @@ public struct GLKViewController: IBDecodable, ViewControllerProtocol {
             connections:          container.childrenIfPresent(of: .connections),
             keyCommands:          container.childrenIfPresent(of: .keyCommands),
             tabBarItem:           container.elementIfPresent(of: .tabBarItem),
+            navigationItem:       container.elementIfPresent(of: .navigationItem),
             glkView:              container.elementIfPresent(of: .glkView),
             size:                 container.elementsIfPresent(of: .size),
             title:                container.attributeIfPresent(of: .title)
