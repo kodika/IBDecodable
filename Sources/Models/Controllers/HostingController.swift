@@ -27,6 +27,7 @@ public struct HostingController: IBDecodable, ViewControllerProtocol {
     public var rootView: ViewProtocol? { return view }
     public let size: [Size]?
     public var framework: String { return "SwiftUI" }
+    public let title: String?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -48,7 +49,8 @@ public struct HostingController: IBDecodable, ViewControllerProtocol {
             keyCommands:          container.childrenIfPresent(of: .keyCommands),
             tabBarItem:           container.elementIfPresent(of: .tabBarItem),
             view:                 container.elementIfPresent(of: .view),
-            size:                 container.elementsIfPresent(of: .size)
+            size:                 container.elementsIfPresent(of: .size),
+            title:                container.attributeIfPresent(of: .title)
         )
     }
 }
