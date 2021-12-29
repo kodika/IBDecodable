@@ -20,9 +20,11 @@ public protocol ViewControllerProtocol: IBIdentifiable, IBCustomClassable, IBUse
     var keyCommands: [KeyCommand]? { get }
     /// The tab bar item that represents the view controller when added to a tab bar controller.
     var tabBarItem: TabBar.TabBarItem? { get }
+    var navigationItem: NavigationBar.NavigationItem? { get }
     var rootView: ViewProtocol? { get }
     var size: [Size]? { get }
     var framework: String { get }
+    var title: String? { get }
 }
 
 extension ViewControllerProtocol {

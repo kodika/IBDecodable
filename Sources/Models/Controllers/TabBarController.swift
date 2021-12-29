@@ -23,9 +23,11 @@ public struct TabBarController: IBDecodable, ViewControllerProtocol {
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBar.TabBarItem?
+    public let navigationItem: NavigationBar.NavigationItem?
     public let tabBar: TabBar?
     public var rootView: ViewProtocol? { return tabBar }
     public let size: [Size]?
+    public let title: String?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -46,8 +48,10 @@ public struct TabBarController: IBDecodable, ViewControllerProtocol {
             connections:                  container.childrenIfPresent(of: .connections),
             keyCommands:                  container.childrenIfPresent(of: .keyCommands),
             tabBarItem:                   container.elementIfPresent(of: .tabBarItem),
+            navigationItem:               container.elementIfPresent(of: .navigationItem),
             tabBar:                       container.elementIfPresent(of: .tabBar),
-            size:                         container.elementsIfPresent(of: .size)
+            size:                         container.elementsIfPresent(of: .size),
+            title:                        container.attributeIfPresent(of: .title)
         )
     }
 }
