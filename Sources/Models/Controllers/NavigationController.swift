@@ -23,6 +23,7 @@ public struct NavigationController: IBDecodable, ViewControllerProtocol {
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBar.TabBarItem?
+    public let navigationItem: NavigationBar.NavigationItem?
     public let navigationBar: NavigationBar?
     public var rootView: ViewProtocol? { return navigationBar }
     public let size: [Size]?
@@ -46,6 +47,7 @@ public struct NavigationController: IBDecodable, ViewControllerProtocol {
             connections:                  container.childrenIfPresent(of: .connections),
             keyCommands:                  container.childrenIfPresent(of: .keyCommands),
             tabBarItem:                   container.elementIfPresent(of: .tabBarItem),
+            navigationItem:               container.elementIfPresent(of: .navigationItem),
             navigationBar:                container.elementIfPresent(of: .navigationBar),
             size:                         container.elementsIfPresent(of: .size)
         )
