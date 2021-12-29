@@ -31,6 +31,7 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
     public let providesPresentationContextTransitionStyle: Bool?
     public let modalTransitionStyle: ModalTransitionStyle
     public let modalPresentationStyle: ModalPresentationStyle
+    public let title: String?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -57,7 +58,8 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
             definesPresentationContext:                 container.attributeIfPresent(of: .definesPresentationContext),
             providesPresentationContextTransitionStyle: container.attributeIfPresent(of: .providesPresentationContextTransitionStyle),
             modalTransitionStyle:                       container.attributeIfPresent(of: .modalTransitionStyle) ?? .coverVertical,
-            modalPresentationStyle:                       container.attributeIfPresent(of: .modalPresentationStyle) ?? .automatic
+            modalPresentationStyle:                     container.attributeIfPresent(of: .modalPresentationStyle) ?? .automatic,
+            title:                                      container.attributeIfPresent(of: .title)
         )
     }
 }

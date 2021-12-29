@@ -28,6 +28,7 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol {
     public var rootView: ViewProtocol? { return tableView }
     public let clearsSelectionOnViewWillAppear: Bool?
     public let size: [Size]?
+    public let title: String?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -51,7 +52,8 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol {
             navigationItem:                  container.elementIfPresent(of: .navigationItem),
             tableView:                       container.elementIfPresent(of: .tableView),
             clearsSelectionOnViewWillAppear: container.attributeIfPresent(of: .clearsSelectionOnViewWillAppear) ?? true,
-            size:                            container.elementsIfPresent(of: .size)
+            size:                            container.elementsIfPresent(of: .size),
+            title:                           container.attributeIfPresent(of: .title)
         )
     }
 }

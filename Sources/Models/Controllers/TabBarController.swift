@@ -27,6 +27,7 @@ public struct TabBarController: IBDecodable, ViewControllerProtocol {
     public let tabBar: TabBar?
     public var rootView: ViewProtocol? { return tabBar }
     public let size: [Size]?
+    public let title: String?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -49,7 +50,8 @@ public struct TabBarController: IBDecodable, ViewControllerProtocol {
             tabBarItem:                   container.elementIfPresent(of: .tabBarItem),
             navigationItem:               container.elementIfPresent(of: .navigationItem),
             tabBar:                       container.elementIfPresent(of: .tabBar),
-            size:                         container.elementsIfPresent(of: .size)
+            size:                         container.elementsIfPresent(of: .size),
+            title:                        container.attributeIfPresent(of: .title)
         )
     }
 }
