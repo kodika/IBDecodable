@@ -43,6 +43,12 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
     public let isSelected: Bool?
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
+    
+    public let numberOfPages: Int?
+    public let hidesForSinglePage: Bool?
+    public let currentPage: Int?
+    public let pageIndicatorTintColor: Color?
+    public let currentPageIndicatorTintColor: Color?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -101,7 +107,12 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
             isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
             isSelected:                                container.attributeIfPresent(of: .isSelected),
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
-            contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment)
+            contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
+            numberOfPages:                             container.attributeIfPresent(of: .numberOfPages),
+            hidesForSinglePage:                        container.attributeIfPresent(of: .hidesForSinglePage),
+            currentPage:                               container.attributeIfPresent(of: .currentPage),
+            pageIndicatorTintColor:                    colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
+            currentPageIndicatorTintColor:             colorsContainer?.withAttributeElement(.key, CodingKeys.currentPageIndicatorTintColor.stringValue)
         )
     }
 }
