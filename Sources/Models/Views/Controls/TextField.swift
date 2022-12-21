@@ -48,6 +48,7 @@ public struct TextField: IBDecodable, ControlProtocol, IBIdentifiable {
     public let isEnabled: Bool?
     public let isHighlighted: Bool?
     public let isSelected: Bool?
+    public let textInputTraits: TextInputTraits?
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
 
@@ -128,6 +129,7 @@ public struct TextField: IBDecodable, ControlProtocol, IBIdentifiable {
             isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
             isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
             isSelected:                                container.attributeIfPresent(of: .isSelected),
+            textInputTraits:                           container.elementIfPresent(of: .textInputTraits),
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment)
         )
