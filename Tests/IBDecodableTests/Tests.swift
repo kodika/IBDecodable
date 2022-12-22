@@ -788,4 +788,27 @@ class Tests: XCTestCase {
             printTree(element: child, level: level + 4)
         }
     }
+    
+    func testTextFieldWithSecureTextEntry() {
+        let url = self.url(forResource: "TextFieldWithSecureTextEntry", withExtension: "xib")
+        do {
+            let file = try XibFile(url: url)
+
+            let textFields = file.document.views?.filter({$0.view is TextField})
+            XCTAssertEqual(textFields?.count, 2, "There should be 2 TextFields")
+            
+            let secureTextEntryTextField = textFields?[0].view as? TextField
+            XCTAssertNotNil(secureTextEntryTextField, "There should be a textField")
+            XCTAssertEqual(secureTextEntryTextField?.elementClass, "UITextField")
+            XCTAssertTrue(secureTextEntryTextField?.textInputTraits?.secureTextEntry ?? false)
+            
+            let notSecureTextEntryTextField = textFields?[1].view as? TextField
+            XCTAssertNotNil(notSecureTextEntryTextField, "There should be a textField")
+            XCTAssertEqual(notSecureTextEntryTextField?.elementClass, "UITextField")
+            XCTAssertNotNil(notSecureTextEntryTextField?.textInputTraits)
+            XCTAssertNil(notSecureTextEntryTextField?.textInputTraits?.secureTextEntry)
+        } catch {
+            XCTFail("\(error)  \(url)")
+        }
+    }
 }
